@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded',()=>{
     tabClassToggle();
 
     // Создание таймера в _promotion
-    let deadline = '2021-04-18';
+    let deadline = '2021-04-19';
 
     countdown(deadline);
     function countdown(endTime){
@@ -80,6 +80,10 @@ document.addEventListener('DOMContentLoaded',()=>{
             timerList[3].textContent = getZero(t.seconds);
             if (t.total<=0 ){
                 clearInterval(timeInterval);
+                timerList[0].textContent = "00";
+                timerList[1].textContent = "00";
+                timerList[2].textContent = "00";
+                timerList[3].textContent = "00";
             }
 
         }
@@ -94,13 +98,14 @@ document.addEventListener('DOMContentLoaded',()=>{
         modal.style.display = "none";
         document.body.style.overflow = "scroll";
     }
+    function modalShow(){
+        modal.style.display = "block";
+        document.body.style.overflow = "hidden";
+        clearInterval(timeInterval);
+    }
 
     btnsModal.forEach(btn=>{
-        btn.addEventListener('click',()=>{
-            modal.style.display = "block";
-            document.body.style.overflow = "hidden";
-            
-        });
+        btn.addEventListener('click',modalShow);
     });
 
     btnModalClose.addEventListener('click',modalClose);
@@ -110,10 +115,23 @@ document.addEventListener('DOMContentLoaded',()=>{
             modalClose();
         }
     });
-    
+
     document.addEventListener('keydown',e=>{
         if (e.code === "Escape" && modal.style.display == "block"){
             modalClose();
         }
     });
+
+    //появление модального окна, через определенное время
+    const timeInterval = setTimeout(modalShow, 10000);
+
+    //появление модального окна, при прокрктке до конца страницы
+    function showModalByScroll(){
+        if (window.pageYOffset + document.documentElement.clientHeight>=document.documentElement.scrollHeight){
+            modalShow();
+            window.removeEventListener("scroll",showModalByScroll);
+        }
+    }
+    window.addEventListener("scroll",showModalByScroll);
+    
 });
