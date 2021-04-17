@@ -43,7 +43,6 @@ document.addEventListener('DOMContentLoaded',()=>{
     let deadline = '2021-04-18';
 
     countdown(deadline);
-    //функция, которая считает время до оканчания таймера
     function countdown(endTime){
         let myDate = new Date().getTime()+(3*60*60*1000),//московское время
             dateOfDiscount = new Date(endTime).getTime(),
@@ -60,7 +59,6 @@ document.addEventListener('DOMContentLoaded',()=>{
             'seconds': secondesUntilEnd
         };
     }
-    //функция добавления 0 таймеру
     function getZero(num){
         if(num>=0 && num<10){
             return ('0'+ num);
@@ -68,7 +66,6 @@ document.addEventListener('DOMContentLoaded',()=>{
             return num;
         }
     }
-    //вставляем в span и обнавляем таймер
     showTimer(".timer .timer__block span",deadline);
     function showTimer(selector, endTime){
         let timerList = document.querySelectorAll(selector),
@@ -87,4 +84,36 @@ document.addEventListener('DOMContentLoaded',()=>{
 
         }
     }
+
+    //создание модального окна
+    const modal = document.querySelector(".modal"),
+        btnsModal = document.querySelectorAll("[data-modal]"),
+        btnModalClose = document.querySelector(".modal__close");
+
+    function modalClose(){
+        modal.style.display = "none";
+        document.body.style.overflow = "scroll";
+    }
+
+    btnsModal.forEach(btn=>{
+        btn.addEventListener('click',()=>{
+            modal.style.display = "block";
+            document.body.style.overflow = "hidden";
+            
+        });
+    });
+
+    btnModalClose.addEventListener('click',modalClose);
+
+    modal.addEventListener('click',e=>{
+        if (e.target == modal){
+            modalClose();
+        }
+    });
+    
+    document.addEventListener('keydown',e=>{
+        if (e.code === "Escape" && modal.style.display == "block"){
+            modalClose();
+        }
+    });
 });
