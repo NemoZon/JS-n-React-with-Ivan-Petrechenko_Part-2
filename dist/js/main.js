@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded',()=>{
     tabClassToggle();
 
     // Создание таймера в _promotion
-    let deadline = '2021-04-19';
+    let deadline = '2021-04-20';
 
     countdown(deadline);
     function countdown(endTime){
@@ -101,7 +101,7 @@ document.addEventListener('DOMContentLoaded',()=>{
     function modalShow(){
         modal.style.display = "block";
         document.body.style.overflow = "hidden";
-        clearInterval(timeInterval);
+        // clearInterval(timeInterval);
     }
 
     btnsModal.forEach(btn=>{
@@ -123,7 +123,7 @@ document.addEventListener('DOMContentLoaded',()=>{
     });
 
     //появление модального окна, через определенное время
-    const timeInterval = setTimeout(modalShow, 10000);
+    // const timeInterval = setTimeout(modalShow, 10000);
 
     //появление модального окна, при прокрктке до конца страницы
     function showModalByScroll(){
@@ -133,5 +133,48 @@ document.addEventListener('DOMContentLoaded',()=>{
         }
     }
     window.addEventListener("scroll",showModalByScroll);
+
+    //Создаем таблички меню, с помощью классов
+    class MenuCard{
+        constructor(srcIMG, alt, subtitle, descr, price, parentSelector) {
+            this.srcIMG = srcIMG;
+            this.alt = alt;
+            this.subtitle = subtitle;
+            this.descr = descr;
+            this.price = price;
+            this.parentSelector = document.querySelector(parentSelector);
+            this.transfer = 27;
+            this.changeToUAH();
+        }
+
+        changeToUAH(){
+            this.price = +this.price * this.transfer;
+        }
+        render(){
+
+            const item = document.createElement("div");
+            item.innerHTML = `
+            <div>
+                <img src=${this.srcIMG} alt=${this.alt}>
+                <h3 class="menu__item-subtitle">${this.subtitle}</h3>
+                <div class="menu__item-descr">${this.descr}</div>
+                <div class="menu__item-divider"></div>
+                <div class="menu__item-price">
+                    <div class="menu__item-cost">Цена:</div>
+                    <div class="menu__item-total"><span>${this.price}</span> грн/день</div>
+                </div>
+            </div>
+            `;
+            this.parentSelector.append(item);
+            
+        }
+    }
+
+    new MenuCard("img/tabs/post.jpg",
+    "post",
+    'Меню "Постное"', 
+    "Меню “Постное” - это тщательный подбор ингредиентов: полное отсутствие продуктов животного происхождения, молоко из миндаля, овса, кокоса или гречки, правильное количество белков за счет тофу и импортных вегетарианских стейков.", 
+    "18", 
+    ".menu .container").render();
     
 });
