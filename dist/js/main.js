@@ -154,7 +154,7 @@ document.addEventListener('DOMContentLoaded',()=>{
 
             const item = document.createElement("div");
             item.innerHTML = `
-            <div>
+            <div class="menu__item">
                 <img src=${this.srcIMG} alt=${this.alt}>
                 <h3 class="menu__item-subtitle">${this.subtitle}</h3>
                 <div class="menu__item-descr">${this.descr}</div>
